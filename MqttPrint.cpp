@@ -31,7 +31,6 @@ void mprintf(const char *format, ...)
 {
   va_list args;
   va_start(args, format);
-  #define MAX_BUFFER_SIZE 512
   char buff[MAX_BUFFER_SIZE];
   sprintf(buff, format, args);
   va_end(args);

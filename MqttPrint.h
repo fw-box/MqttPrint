@@ -21,6 +21,8 @@
 #include <PubSubClient.h>
 #include <stdarg.h>
 
+#define MAX_BUFFER_SIZE 1024
+
 void _mPrint(String message);
 #define mprint(val) _mPrint(String(val))
 void _mPrintln(String message);
