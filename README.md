@@ -70,6 +70,16 @@ An application to receive the MQTT messages. It's written in Python. Please inst
 
     pip install MqttMonitor
 
+How to run 'MqttMonitor'?
+- Right-click on your desktop and select New > Shortcut.
+- Add the below string in textbox "Type the location of the item:" and press 'Next'.
+
+    pythonw.exe -m MqttMonitor
+
+- Add the below string in textbox "Type a name for this shortcut:" and press 'Finish'.
+
+    MqttMonitor
+
 
 Usage
 -----
