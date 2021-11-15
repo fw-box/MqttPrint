@@ -32,7 +32,7 @@ void mprintf(const char *format, ...)
   va_list args;
   va_start(args, format);
   char buff[MAX_BUFFER_SIZE];
-  vsnprintf (buff, MAX_BUFFER_SIZE,format, args);
+  vsnprintf(buff, MAX_BUFFER_SIZE, format, args);
   va_end(args);
   MqttClient.publish(PubTopic.c_str(), buff);
 }
