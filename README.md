@@ -75,4 +75,5 @@ Usage
 -----
 MqttPrint is a MQTT sender, MqttMonitor is a MQTT receiver. They should use the same MQTT broker and sub topic.
 This is the screentshot of MqttMonitor.
+
 ![alt screenshot](https://github.com/fw-box/MqttPrint/blob/main/screenshot.png?raw=true)
