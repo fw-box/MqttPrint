@@ -18,6 +18,14 @@
 
 #include "MqttPrint.h"
 
+//
+// WiFi status LED
+// Blink - WiFi is connecting
+// Turn on - Connected
+// Turn off - Disconnected
+//
+//#define WIFI_STATUS_LED LED_BUILTIN
+
 // Update these with values suitable for your network.
 
 const char* ssid = "YOUR_WIFI_SSID";
@@ -29,7 +37,11 @@ const char* MessageTopic = "YOUR_MQTT_SUB_TOPIC";
 void setup() {
 
   //Serial.begin(115200);
-  
+  // initialize digital pin LED_BUILTIN as an output.
+#if defined(WIFI_STATUS_LED)
+  pinMode(WIFI_STATUS_LED, OUTPUT);
+#endif // #if defined(WIFI_STATUS_LED)
+
   //
   // Begin to connect to thw WiFi AP.
   //
@@ -43,6 +55,14 @@ void setup() {
       break;
     delay(500);
     //Serial.print(".");
+#if defined(WIFI_STATUS_LED)
+    if (count % 2) {
+      digitalWrite(WIFI_STATUS_LED, HIGH); // Turn off the LED
+    }
+    else {
+      digitalWrite(WIFI_STATUS_LED, LOW); // Turn on the LED
+    }
+#endif // #if defined(WIFI_STATUS_LED)
     count++;
   }
 
@@ -72,6 +92,9 @@ void keepConnecting() {
   unsigned long LastWiFiConnectionTime = 0;
   unsigned long LastMqttConnectionTime = 0;
   if (WiFi.status() == WL_CONNECTED) {
+#if defined(WIFI_STATUS_LED)
+    digitalWrite(WIFI_STATUS_LED, LOW); // Turn on the LED
+#endif // #if defined(WIFI_STATUS_LED)
     // Loop until we're reconnected
     if (!MqttClient.connected() && (millis() - LastMqttConnectionTime > 10000)) {
       //Serial.print("Attempting MQTT connection...");
@@ -90,6 +113,9 @@ void keepConnecting() {
     }
   }
   else {
+#if defined(WIFI_STATUS_LED)
+    digitalWrite(WIFI_STATUS_LED, HIGH); // Turn off the LED
+#endif // #if defined(WIFI_STATUS_LED)
     if (millis() - LastWiFiConnectionTime > 10000) {
       //Serial.println("WiFi : Attempting to connect...");
       WiFi.mode(WIFI_STA);
