@@ -21,15 +21,16 @@
 #include <PubSubClient.h>
 #include <stdarg.h>
 
-#define MAX_BUFFER_SIZE 1024
+#define MAX_BUFFER_SIZE 768
 
 void _mPrint(String message);
 #define mprint(val) _mPrint(String(val))
 void _mPrintln(String message);
 #define mprintln(val) _mPrintln(String(val))
+void mprintln();
 void mprintf(const char *format, ...);
 void mbegin(String mqttServer, int mqttPort, String pubTopic);
 
-extern PubSubClient MqttClient;
+extern PubSubClient MqttClient39105;
 
 #endif // __MQTT_PRINT_H__
