@@ -7,6 +7,11 @@
 //   When the original serial of ESP8266/ESP32 cannot be used,
 //   it can replace serial print.
 //
+//   Install the PC side APP by pip (Python 3.6 up)
+//   >pip install MqttMonitor
+//   Or update it
+//   >pip install MqttMonitor --upgrade
+//
 // Libraries :
 //
 
