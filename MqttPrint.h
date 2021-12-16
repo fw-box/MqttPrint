@@ -30,7 +30,6 @@ void _mPrintln(String message);
 void mprintln();
 void mprintf(const char *format, ...);
 void mbegin(String mqttServer, int mqttPort, String pubTopic);
-
-extern PubSubClient MqttClient39105;
+void keepConnecting();
 
 #endif // __MQTT_PRINT_H__

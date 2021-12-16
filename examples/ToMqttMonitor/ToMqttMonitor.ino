@@ -29,12 +29,17 @@
 // Turn on - Connected
 // Turn off - Disconnected
 //
-//#define WIFI_STATUS_LED LED_BUILTIN
+#define WIFI_STATUS_LED LED_BUILTIN
+#if defined(WIFI_STATUS_LED)
+  #define STATUS_LED_ON LOW
+  #define STATUS_LED_OFF HIGH
+#endif // #if defined(WIFI_STATUS_LED)
 
 // Update these with values suitable for your network.
 
 const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
+unsigned long LastWiFiConnectionTime = 0;
 
 const char* MqttServer = "broker.emqx.io";
 const char* MessageTopic = "YOUR_MQTT_SUB_TOPIC";
@@ -62,10 +67,10 @@ void setup() {
     //Serial.print(".");
 #if defined(WIFI_STATUS_LED)
     if (count % 2) {
-      digitalWrite(WIFI_STATUS_LED, HIGH); // Turn off the LED
+      digitalWrite(WIFI_STATUS_LED, STATUS_LED_OFF); // Turn off the LED
     }
     else {
-      digitalWrite(WIFI_STATUS_LED, LOW); // Turn on the LED
+      digitalWrite(WIFI_STATUS_LED, STATUS_LED_ON); // Turn on the LED
     }
 #endif // #if defined(WIFI_STATUS_LED)
     count++;
@@ -88,44 +93,23 @@ void loop() {
   mprintln("Hello World");
   mprintf("TEST = %d\n", millis());
 
-  keepConnecting();
-  
-  delay(5000);
-}
-
-void keepConnecting() {
-  unsigned long LastWiFiConnectionTime = 0;
-  unsigned long LastMqttConnectionTime = 0;
   if (WiFi.status() == WL_CONNECTED) {
 #if defined(WIFI_STATUS_LED)
-    digitalWrite(WIFI_STATUS_LED, LOW); // Turn on the LED
+    digitalWrite(WIFI_STATUS_LED, STATUS_LED_ON); // Turn on the LED
 #endif // #if defined(WIFI_STATUS_LED)
-    // Loop until we're reconnected
-    if (!MqttClient.connected() && (millis() - LastMqttConnectionTime > 10000)) {
-      //Serial.print("Attempting MQTT connection...");
-      // Create a random client ID
-      String clientId = "ESP8266Client-";
-      clientId += String(random(0xffff), HEX);
-      // Attempt to connect
-      if (MqttClient.connect(clientId.c_str())) {
-        //Serial.println("MQTT connected");
-      } else {
-        //Serial.print("failed, rc=");
-        //Serial.print(MqttClient.state());
-        //Serial.println(" try again in 10 seconds");
-        LastMqttConnectionTime = millis();
-      }
-    }
+    keepConnecting();
   }
   else {
 #if defined(WIFI_STATUS_LED)
-    digitalWrite(WIFI_STATUS_LED, HIGH); // Turn off the LED
+    digitalWrite(WIFI_STATUS_LED, STATUS_LED_OFF); // Turn off the LED
 #endif // #if defined(WIFI_STATUS_LED)
-    if (millis() - LastWiFiConnectionTime > 10000) {
+    if (millis() - LastWiFiConnectionTime > 10*1000) {
       //Serial.println("WiFi : Attempting to connect...");
       WiFi.mode(WIFI_STA);
       WiFi.begin(ssid, password); // Connect to WiFi.
       LastWiFiConnectionTime = millis();
     }
   }
+  
+  delay(5000);
 }

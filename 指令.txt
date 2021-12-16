@@ -1,3 +1,3 @@
 git add .
-git commit -m "Add 'void mprintln();'"
+git commit -m "Fix building errors."
 git push
