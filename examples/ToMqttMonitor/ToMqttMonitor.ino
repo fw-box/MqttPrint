@@ -97,7 +97,6 @@ void loop() {
 #if defined(WIFI_STATUS_LED)
     digitalWrite(WIFI_STATUS_LED, STATUS_LED_ON); // Turn on the LED
 #endif // #if defined(WIFI_STATUS_LED)
-    keepConnecting();
   }
   else {
 #if defined(WIFI_STATUS_LED)
